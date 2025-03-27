@@ -22,6 +22,7 @@ function Details() {
   return (
     <>
       'Hola. What are your details' <br></br>
+      <div>First Name</div>
       <input
         type="text"
         value={firstName}
