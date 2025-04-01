@@ -1,11 +1,66 @@
 import { useState } from "react";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
-// import "./App.css";
+
+function FullName() {
+  const [fullName, setFullName] = useState("default");
+  const [editStatus, setEditStatus] = useState(true);
+
+  const fullNameSubmit = (e) => {
+    setFullName(fullName);
+    setEditStatus(false);
+  };
+
+  const fullNameEdit = (e) => {
+    setFullName(fullName);
+    setEditStatus(true);
+  };
+
+  if (editStatus) {
+    return (
+      <div>
+        <h2>Name</h2>
+        <input
+          type="text"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+        ></input>
+        <button onClick={fullNameSubmit}>Submit</button>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h2>Name</h2>
+        <div>
+          {fullName} <button onClick={fullNameEdit}>Edit</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+function GlobalCV() {
+  const defaultCV = [
+    {
+      firstName: "Jimmy",
+      email: "jimmy@jimmyjimjimjimmy.com",
+      phone: 123456789,
+    },
+  ];
+
+  const [CVDetails, setCVDetails] = useState(defaultCV);
+
+  return (
+    <div>
+      "global"
+      <div>{CVDetails}</div>
+    </div>
+  );
+}
 
 function Details() {
   let finalName = "";
   const [firstName, setFirstName] = useState("");
+
   const [finalFirstName, setFinalFirstName] = useState("");
 
   const doEdit = (e) => {
@@ -21,20 +76,49 @@ function Details() {
 
   return (
     <>
-      'Hola. What are your details' <br></br>
-      <div>First Name</div>
-      <input
-        type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-      ></input>
-      <button onClick={doEdit}>edit</button>
-      <button onClick={submit}>submit</button>
-      <div>First Name: {finalFirstName} </div>
+      <div>
+        First Name
+        <input
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        ></input>
+        <button onClick={doEdit}>edit</button>
+        <button onClick={submit}>submit</button>
+      </div>
     </>
   );
 }
 
+function LastName() {
+  const [lastName, setlastName] = useState("");
+
+  return (
+    <>
+      <br></br>
+      <br></br>
+      <div>
+        Last Name
+        <input
+          type="text"
+          value={lastName}
+          // onChange={(e) => setLastName(e.target.value)}
+        ></input>
+        {/* <button onClick={doEdit}>edit</button> */}
+        {/* <button onClick={submit}>submit</button> */}
+      </div>
+    </>
+  );
+}
+
+function Resume(firstName) {
+  return (
+    <>
+      <h1>Final Resume</h1>
+      <div> {firstName}</div>
+    </>
+  );
+}
 function App() {
   const [count, setCount] = useState(0);
 
@@ -64,4 +148,4 @@ function App() {
   );
 }
 
-export { Details };
+export { FullName, Details, LastName, Resume, GlobalCV };

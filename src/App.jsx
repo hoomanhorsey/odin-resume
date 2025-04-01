@@ -1,17 +1,27 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
-import { Details } from "./components/details";
+import {
+  FullName,
+  Details,
+  LastName,
+  Resume,
+  GlobalCV,
+} from "./components/details";
 
 function App() {
   // const [count, setCount] = useState(0);
 
+  const firstName = "blah";
   return (
     <>
+      <h1>Resume</h1>
+      <FullName />
+      <GlobalCV />
       <div>
-        <Details />
+        {/* <Details /> */}
+        {/* <LastName /> */}
+        {/* <Resume firstName={firstName} /> */}
       </div>
     </>
   );
