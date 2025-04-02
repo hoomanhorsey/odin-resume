@@ -62,12 +62,35 @@ function GlobalCV() {
 
   const [CVDetails, setCVDetails] = useState(defaultCV);
 
-  const generic = () => {};
+  const editStatus = (id) => {
+    console.log(id);
+
+    setCVDetails((prevState) =>
+      prevState.map((item) =>
+        item.id === id ? { ...item, editStatus: false } : item
+      )
+    );
+  };
 
   const updateValue = (id, newValue) => {
     setCVDetails((prevState) =>
       prevState.map((item) =>
         item.id === id ? { ...item, value: newValue } : item
+      )
+    );
+  };
+
+  const submitInfo = (id) => {
+    console.log(id, "submitted info", CVDetails[id].value);
+    setCVDetails((prevState) =>
+      prevState.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              editStatus: true,
+              value: CVDetails.find((item) => item.id === id).value,
+            }
+          : item
       )
     );
   };
@@ -81,11 +104,12 @@ function GlobalCV() {
           value={item.value}
           onChange={(e) => updateValue(item.id, e.target.value)}
         ></input>
-        <button onClick={generic}>Submit</button>
+        <button onClick={() => submitInfo(item.id)}>Submit</button>
       </div>
     ) : (
       <div key={item.id}>
-        {item.label}: {item.value} <button onClick={generic}>Edit</button>
+        {item.label}: {item.value}{" "}
+        <button onClick={() => editStatus(item.id)}>Edit</button>
       </div>
     )
   );
