@@ -39,22 +39,84 @@ function FullName() {
 }
 
 function GlobalCV() {
+  // const defaultCV = {
+  //   name: "Jimmy",
+  //   email: "jimmy@jimmyjimjimjimmy.com",
+  //   phone: 123456789,
+  // };
+
+  // const defaultCV = {
+  //   name: { value: "Jimmy", editStatus: false },
+  //   email: { value: "jimmy@jimmyjimjimjimmy.com", editStatus: false },
+  //   phone: { value: 123456789, editStatus: false },
+  //   achievements: [
+  //     { text: "Graduated with honors", editStatus: false },
+  //     { text: "Won coding competition", editStatus: false },
+  //   ],
+  // };
   const defaultCV = [
-    {
-      firstName: "Jimmy",
-      email: "jimmy@jimmyjimjimjimmy.com",
-      phone: 123456789,
-    },
+    { id: 1, label: "Name", value: "Jimmy", editStatus: false },
+    { id: 2, label: "Email", value: "jimmy@jimmy.com", editStatus: true },
+    { id: 3, label: "Phone", value: "123456789", editStatus: false },
   ];
 
   const [CVDetails, setCVDetails] = useState(defaultCV);
 
-  return (
-    <div>
-      "global"
-      <div>{CVDetails}</div>
-    </div>
+  const generic = () => {};
+
+  const updateValue = (id, newValue) => {
+    setCVDetails((prevState) =>
+      prevState.map((item) =>
+        item.id === id ? { ...item, value: newValue } : item
+      )
+    );
+  };
+
+  const editStatusRender = CVDetails.map((item) =>
+    item.editStatus === false ? (
+      <div key={item.id}>
+        {item.label}
+        <input
+          type="text"
+          value={item.value}
+          onChange={(e) => updateValue(item.id, e.target.value)}
+        ></input>
+        <button onClick={generic}>Submit</button>
+      </div>
+    ) : (
+      <div key={item.id}>
+        {item.label}: {item.value} <button onClick={generic}>Edit</button>
+      </div>
+    )
   );
+  return editStatusRender;
+
+  // return (
+  //   <>
+  //     <h1>CV Submit</h1>
+  //     <div>
+  //       {CVDetails[0].value}
+  //       <input
+  //         type="text"
+  //         value={CVDetails[0].value}
+  //         onChange={(e) => generic(e.target.value)}
+  //       ></input>
+  //       <button onClick={generic}>Submit</button>
+  //     </div>
+
+  //     <h1>CV</h1>
+  //     <div>
+  //       Name: {CVDetails[0].value} <button onClick={generic}>Edit</button>
+  //     </div>
+  //     <div>
+  //       Email: {CVDetails[1].value} <button onClick={generic}>Edit</button>
+  //     </div>
+  //     <div>
+  //       Phone: {CVDetails[2].value}
+  //       <button onClick={generic}>Edit</button>
+  //     </div>
+  //   </>
+  // );
 }
 
 function Details() {
