@@ -1,13 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-import {
-  FullName,
-  Details,
-  LastName,
-  Resume,
-  GlobalCV,
-} from "./components/details";
+import { GlobalCV } from "./components/details";
 
 function App() {
   // const [count, setCount] = useState(0);
