@@ -2,81 +2,68 @@ import { useState } from "react";
 import { defaultCV } from "../data/defaultCV";
 
 function BenderValues({ CVDetails, category }) {
-  CVDetails.map((item) => console.log(item));
+  const selectedCategory = CVDetails.find((item) => item.category === category);
 
-  CVDetails.filter((item) => item.category === category).map((item) =>
-    console.log("filtered", item)
-  );
-
-  return CVDetails.filter((item) => item.category === category).map(
-    (item) =>
-      item.items.map((subItem) =>
-        subItem.values.editStatus === false ? (
-          <>
-            <div> editStatus false</div>
-            <div class="itemContainer">
-              <div> {subItem.values.name}</div>
-              <div></div>
-              <div></div>
+  return selectedCategory.entries.map((entry) =>
+    entry.editStatus === false ? (
+      <div className="entryContainer">
+        {Object.entries(entry.values).map(([key, value]) => {
+          return (
+            <>
+              <div className="itemContainer" key={entry.id}>
+                <div className="itemLabel">{key}</div>
+                <input lassName="itemInput" type="text" value={value}></input>
+              </div>
+            </>
+          );
+        })}
+        <div></div>
+        <div>
+          <button className="itemButton" onClick={() => submitInfo(entry.id)}>
+            Submit
+          </button>
+        </div>
+      </div>
+    ) : (
+      <div className="entryContainer">
+        {Object.entries(entry.values).map(([key, value]) => {
+          return (
+            <div className="itemContainer" key={entry.id}>
+              <div className="itemLabel">{key}</div>
+              <div className="itemValue">{value}</div>
             </div>
-          </>
-        ) : (
-          <div>boo </div>
-        )
-      )
-
-    // item.values.editStatus === false ? (
-    //   <div class="itemContainer" key={items.label}>
-    //     <div class="itemLabel">{items.label}:</div>
-    //     <input
-    //       class="itemInput"
-    //       type="text"
-    //       value={items.values.name}
-    //       onChange={(e) => updateValue(item.id, e.target.value)}
-    //     ></input>
-    //     <div>
-    //       <button
-    //         class="itemButton"
-    //         onClick={() => submitInfo(items.values.name)}
-    //       >
-    //         Submit
-    //       </button>
-    //     </div>
-    //   </div>
-    // ) : (
-    //   <div class="itemContainer" key={item.id}>
-    //     <div class="itemLabel">{item.label}:</div>
-    //     <div class="itemValue">{item.value}</div>{" "}
-    //     <button class="itemButton" onClick={() => editStatus(item.id)}>
-    //       Edit
-    //     </button>
-    //   </div>
-    // )
+          );
+        })}
+        <button className="itemButton" onClick={() => editStatus(entry.id)}>
+          Edit
+        </button>
+      </div>
+    )
   );
 }
 
 function RenderValues({ CVDetails, category }) {
   return CVDetails.filter((item) => item.category === category).map((item) =>
     item.editStatus === false ? (
-      <div class="itemContainer" key={item.id}>
-        <div class="itemLabel">{item.label}:</div>
+      <div className="itemContainer" key={item.id}>
+        <div className="itemLabel">{item.label}:</div>
         <input
-          class="itemInput"
+          className="itemInput"
           type="text"
           value={item.value}
           onChange={(e) => updateValue(item.id, e.target.value)}
         ></input>
         <div>
-          <button class="itemButton" onClick={() => submitInfo(item.id)}>
+          <button className="itemButton" onClick={() => submitInfo(item.id)}>
             Submit
           </button>
         </div>
       </div>
     ) : (
-      <div class="itemContainer" key={item.id}>
-        <div class="itemLabel">{item.label}:</div>
-        <div class="itemValue">{item.value}</div>{" "}
-        <button class="itemButton" onClick={() => editStatus(item.id)}>
+      <div className="itemContainer" key={item.id}>
+        <div className="itemLabel">{item.label}:</div>
+        <div className="itemValue">{item.value}</div>{" "}
+        <button className="itemButton" onClick={() => editStatus(item.id)}>
           Edit
         </button>
       </div>
@@ -122,8 +109,10 @@ function GlobalCV() {
     <div key={category}>
       <h2>{category}</h2>
 
-      {console.log("hi")}
       <RenderValues CVDetails={CVDetails} category={category} />
+
+      {console.log("calling BenderValues with" + { category })}
+
       <BenderValues CVDetails={CVDetails} category={category} />
     </div>
   ));
@@ -133,25 +122,25 @@ function GlobalCV() {
   //     <h2>{category}</h2>
   //     {CVDetails.filter((item) => item.category === category).map((item) =>
   //       item.editStatus === false ? (
-  //         <div class="itemContainer" key={item.id}>
-  //           <div class="itemLabel">{item.label}:</div>
+  //         <div className="itemContainer" key={item.id}>
+  //           <div className="itemLabel">{item.label}:</div>
   //           <input
-  //             class="itemInput"
+  //             className="itemInput"
   //             type="text"
   //             value={item.value}
   //             onChange={(e) => updateValue(item.id, e.target.value)}
   //           ></input>
   //           <div>
-  //             <button class="itemButton" onClick={() => submitInfo(item.id)}>
+  //             <button className="itemButton" onClick={() => submitInfo(item.id)}>
   //               Submit
   //             </button>
   //           </div>
   //         </div>
   //       ) : (
-  //         <div class="itemContainer" key={item.id}>
-  //           <div class="itemLabel">{item.label}:</div>
-  //           <div class="itemValue">{item.value}</div>{" "}
-  //           <button class="itemButton" onClick={() => editStatus(item.id)}>
+  //         <div className="itemContainer" key={item.id}>
+  //           <div className="itemLabel">{item.label}:</div>
+  //           <div className="itemValue">{item.value}</div>{" "}
+  //           <button className="itemButton" onClick={() => editStatus(item.id)}>
   //             Edit
   //           </button>
   //         </div>
@@ -165,25 +154,25 @@ function GlobalCV() {
   //     <h2>{category}</h2>
   //     {CVDetails.filter((item) => item.category === category).map((item) =>
   //       item.editStatus === false ? (
-  //         <div class="itemContainer" key={item.id}>
-  //           <div class="itemLabel">{item.label}:</div>
+  //         <div className="itemContainer" key={item.id}>
+  //           <div className="itemLabel">{item.label}:</div>
   //           <input
-  //             class="itemInput"
+  //             className="itemInput"
   //             type="text"
   //             value={item.value}
   //             onChange={(e) => updateValue(item.id, e.target.value)}
   //           ></input>
   //           <div>
-  //             <button class="itemButton" onClick={() => submitInfo(item.id)}>
+  //             <button className="itemButton" onClick={() => submitInfo(item.id)}>
   //               Submit
   //             </button>
   //           </div>
   //         </div>
   //       ) : (
-  //         <div class="itemContainer" key={item.id}>
-  //           <div class="itemLabel">{item.label}:</div>
-  //           <div class="itemValue">{item.value}</div>{" "}
-  //           <button class="itemButton" onClick={() => editStatus(item.id)}>
+  //         <div className="itemContainer" key={item.id}>
+  //           <div className="itemLabel">{item.label}:</div>
+  //           <div className="itemValue">{item.value}</div>{" "}
+  //           <button className="itemButton" onClick={() => editStatus(item.id)}>
   //             Edit
   //           </button>
   //         </div>

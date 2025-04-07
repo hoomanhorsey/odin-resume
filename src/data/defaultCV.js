@@ -1,58 +1,73 @@
 const defaultCV = [
   {
     category: "Details",
-    items: [
+    entries: [
       {
+        id: 1,
         label: "Personal Details",
         values: {
-          name: "Jimmy",
-          email: "jimmy@jimmy.com",
-          phone: "123456789",
-          editStatus: false,
+          Name: "Jimmy",
+          Email: "jimmy@jimmy.com",
+          Phone: "123456789",
         },
+        editStatus: false,
+      },
+      {
+        id: 2,
+        label: "Personal Details",
+        values: {
+          Name: "harry",
+          Email: "harry@harry.com",
+          Phone: "123456789",
+        },
+        editStatus: true,
       },
     ],
   },
   {
     category: "Education",
-    items: [
+    entries: [
       {
+        id: 3,
         values: {
-          school: "University of Sydney",
-          courseDetails: "Bachelor of Law",
-          dates: "1997 - 1999",
-          editStatus: false,
+          School: "University of Sydney",
+          CourseDetails: "Bachelor of Law",
+          Dates: "1997 - 1999",
         },
+        editStatus: false,
       },
       {
+        id: 4,
         values: {
-          school: "University of Sydney",
-          courseDetails: "Bachelor of Law",
-          dates: "1997 - 1999",
-          editStatus: false,
+          School: "University of Melbourne",
+          CourseDetails: "Master of Law",
+          Dates: "2000 - 2002",
         },
+        editStatus: false,
       },
     ],
   },
 
   {
     category: "Work",
-    items: [
+    entries: [
       {
+        id: 5,
         values: {
-          company: "Big Law",
-          role: "Lawyer",
-          dates: "2000 - 2005",
-          editStatus: false,
+          Organisation: "Big Law",
+          Position: "Lawyer",
+          Dates: "2000 - 2005",
         },
+        editStatus: false,
       },
       {
+        id: 6,
         values: {
-          company: "Australian Government",
-          role: "Policy Guy",
-          dates: "2006 - 2015",
-          editStatus: false,
+          Organisation: "Australian Government",
+          Position: "Policy Guy",
+          Dates: "2006 - 2015",
         },
+        editStatus: false,
       },
     ],
   },

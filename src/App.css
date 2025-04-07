@@ -41,6 +41,9 @@
   color: #888;
 }
 
+.entryContainer {
+  padding: 30px;
+}
 .itemContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
