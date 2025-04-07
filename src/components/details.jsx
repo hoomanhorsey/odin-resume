@@ -1,92 +1,54 @@
 import { useState } from "react";
 import { defaultCV } from "../data/defaultCV";
 
-function FenderValues({ CVDetails, category }) {
+function FenderValues({
+  CVDetails,
+  category,
+  editStatus,
+  updateValue,
+  submitInfo,
+}) {
   const selectedCategory = CVDetails.find((item) => item.category === category);
+
+  console.log(category, "+ ", selectedCategory);
 
   return selectedCategory.entries.map((entry) => {
     const entryValues = Object.entries(entry.values).map(([key, value]) => (
-      <div className="itemContainer">
+      <div className="itemContainer" key={entry.id + key}>
         <div className="itemLabel">{key}: </div>
-        <div>{value}</div>
+        {entry.editStatus === false ? (
+          <div>
+            <input
+              className="itemInput"
+              type="text"
+              value={value}
+              onChange={(e) =>
+                updateValue(entry.id, key, e.target.value, category)
+              }
+            ></input>
+          </div>
+        ) : (
+          <div className="itemValue">{value}</div>
+        )}
       </div>
     ));
-    return <div className="entryContainer"> {entryValues} </div>;
-  });
-}
-
-//     entry.editStatus === false ? (
-//       <div className="entryContainer" key={entry.id}>
-//         {Object.entries(entry.values).map(([key, value]) => {
-//           return (
-//             <div className="itemContainer">
-//               <div className="itemLabel">{key}</div>
-//               <input className="itemInput" type="text" value={value}></input>
-//             </div>
-//           );
-//         })}
-//         <div></div>
-//         <div>
-//           <button className="itemButton" onClick={() => submitInfo(entry.id)}>
-//             Submit
-//           </button>
-//         </div>
-//       </div>
-//     ) : (
-//       <div className="entryContainer" key={entry.id}>
-//         {Object.entries(entry.values).map(([key, value]) => {
-//           return (
-//             <div className="itemContainer">
-//               <div className="itemLabel">{key}</div>
-//               <div className="itemValue">{value}</div>
-//             </div>
-//           );
-//         })}
-//         <button className="itemButton" onClick={() => editStatus(entry.id)}>
-//           Edit
-//         </button>
-//       </div>
-//     )
-//   );
-// }
-
-function BenderValues({ CVDetails, category }) {
-  const selectedCategory = CVDetails.find((item) => item.category === category);
-
-  return selectedCategory.entries.map((entry) =>
-    entry.editStatus === false ? (
+    return (
       <div className="entryContainer" key={entry.id}>
-        {Object.entries(entry.values).map(([key, value]) => {
-          return (
-            <div className="itemContainer">
-              <div className="itemLabel">{key}</div>
-              <input className="itemInput" type="text" value={value}></input>
-            </div>
-          );
-        })}
-        <div></div>
+        {entryValues}
         <div>
-          <button className="itemButton" onClick={() => submitInfo(entry.id)}>
-            Submit
-          </button>
+          {entry.editStatus === false ? (
+            <button className="itemButton" onClick={() => submitInfo(entry.id)}>
+              Submit
+            </button>
+          ) : (
+            <button className="itemButton" onClick={() => editStatus(entry.id)}>
+              Edit
+            </button>
+          )}
         </div>
       </div>
-    ) : (
-      <div className="entryContainer" key={entry.id}>
-        {Object.entries(entry.values).map(([key, value]) => {
-          return (
-            <div className="itemContainer">
-              <div className="itemLabel">{key}</div>
-              <div className="itemValue">{value}</div>
-            </div>
-          );
-        })}
-        <button className="itemButton" onClick={() => editStatus(entry.id)}>
-          Edit
-        </button>
-      </div>
-    )
-  );
+    );
+  });
 }
 
 function GlobalCV() {
@@ -100,7 +62,54 @@ function GlobalCV() {
     );
   };
 
-  const updateValue = (id, newValue) => {
+  const updateValue = (id, key, newValue, category) => {
+    console.log("called update---", id, key, newValue, category);
+
+    setCVDetails((prevState) =>
+      prevState.map((categoryObj) => {
+        if (categoryObj.category !== category) return categoryObj;
+
+        return {
+          ...categoryObj,
+          entries: categoryObj.entries.map((entry) => {
+            if (entry.id !== id) return entry;
+
+            return {
+              ...entry,
+              values: {
+                ...entry.values,
+                [key]: newValue, // 👈 key being updated
+              },
+            };
+          }),
+        };
+      })
+    );
+  };
+  // setCVDetails((prevState) => {
+  //   const updateCategory = prevState.find(
+  //     (item) => item.category === category
+  //   );
+  //   const updateEntry = updateCategory.entries.find(
+  //     (entry) => entry.id === id
+  //   );
+
+  //   console.log(updateEntry);
+
+  //   console.log(updateEntry.values[key]);
+
+  //   console.log(newValue);
+
+  //   return { ...prevState.category.id.values[key], [key]: newValue };
+  // .find((subItem) => subItem.id === id)
+  // .values.map((entryItems) =>
+  //   entryItems.key === key ? console.log("Enormous poo") : null
+  // );
+
+  // item.id === id ? { ...item, value: newValue } : item
+  //   });
+  // };
+  const DRAFTupdateValue = (id, newValue) => {
     setCVDetails((prevState) =>
       prevState.map((item) =>
         item.id === id ? { ...item, value: newValue } : item
@@ -127,9 +136,15 @@ function GlobalCV() {
     <div key={category}>
       <h2>{category}</h2>
 
-      <FenderValues CVDetails={CVDetails} category={category} />
+      <FenderValues
+        CVDetails={CVDetails}
+        category={category}
+        editStatus={editStatus}
+        updateValue={updateValue}
+        submitInfo={submitInfo}
+      />
 
-      <BenderValues CVDetails={CVDetails} category={category} />
+      {/* <BenderValues CVDetails={CVDetails} category={category} /> */}
     </div>
   ));
 }
