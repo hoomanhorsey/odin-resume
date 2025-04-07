@@ -1,6 +1,55 @@
 import { useState } from "react";
 import { defaultCV } from "../data/defaultCV";
 
+function FenderValues({ CVDetails, category }) {
+  const selectedCategory = CVDetails.find((item) => item.category === category);
+
+  return selectedCategory.entries.map((entry) => {
+    const entryValues = Object.entries(entry.values).map(([key, value]) => (
+      <div className="itemContainer">
+        <div className="itemLabel">{key}: </div>
+        <div>{value}</div>
+      </div>
+    ));
+    return <div className="entryContainer"> {entryValues} </div>;
+  });
+}
+
+//     entry.editStatus === false ? (
+//       <div className="entryContainer" key={entry.id}>
+//         {Object.entries(entry.values).map(([key, value]) => {
+//           return (
+//             <div className="itemContainer">
+//               <div className="itemLabel">{key}</div>
+//               <input className="itemInput" type="text" value={value}></input>
+//             </div>
+//           );
+//         })}
+//         <div></div>
+//         <div>
+//           <button className="itemButton" onClick={() => submitInfo(entry.id)}>
+//             Submit
+//           </button>
+//         </div>
+//       </div>
+//     ) : (
+//       <div className="entryContainer" key={entry.id}>
+//         {Object.entries(entry.values).map(([key, value]) => {
+//           return (
+//             <div className="itemContainer">
+//               <div className="itemLabel">{key}</div>
+//               <div className="itemValue">{value}</div>
+//             </div>
+//           );
+//         })}
+//         <button className="itemButton" onClick={() => editStatus(entry.id)}>
+//           Edit
+//         </button>
+//       </div>
+//     )
+//   );
+// }
+
 function BenderValues({ CVDetails, category }) {
   const selectedCategory = CVDetails.find((item) => item.category === category);
 
@@ -77,6 +126,8 @@ function GlobalCV() {
   return categories.map((category) => (
     <div key={category}>
       <h2>{category}</h2>
+
+      <FenderValues CVDetails={CVDetails} category={category} />
 
       <BenderValues CVDetails={CVDetails} category={category} />
     </div>
