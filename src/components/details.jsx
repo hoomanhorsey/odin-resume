@@ -1,16 +1,8 @@
 import { useState } from "react";
 import { defaultCV } from "../data/defaultCV";
 
-function FenderValues({
-  CVDetails,
-  category,
-  editStatus,
-  updateValue,
-  submitInfo,
-}) {
+function FenderValues({ CVDetails, category, updateValue, toggleEditStatus }) {
   const selectedCategory = CVDetails.find((item) => item.category === category);
-
-  console.log(category, "+ ", selectedCategory);
 
   return selectedCategory.entries.map((entry) => {
     const entryValues = Object.entries(entry.values).map(([key, value]) => (
@@ -37,11 +29,17 @@ function FenderValues({
         {entryValues}
         <div>
           {entry.editStatus === false ? (
-            <button className="itemButton" onClick={() => submitInfo(entry.id)}>
+            <button
+              className="itemButton"
+              onClick={() => toggleEditStatus(entry.id, category)}
+            >
               Submit
             </button>
           ) : (
-            <button className="itemButton" onClick={() => editStatus(entry.id)}>
+            <button
+              className="itemButton"
+              onClick={() => toggleEditStatus(entry.id, category)}
+            >
               Edit
             </button>
           )}
@@ -54,17 +52,7 @@ function FenderValues({
 function GlobalCV() {
   const [CVDetails, setCVDetails] = useState(defaultCV);
 
-  const editStatus = (id) => {
-    setCVDetails((prevState) =>
-      prevState.map((item) =>
-        item.id === id ? { ...item, editStatus: false } : item
-      )
-    );
-  };
-
   const updateValue = (id, key, newValue, category) => {
-    console.log("called update---", id, key, newValue, category);
-
     setCVDetails((prevState) =>
       prevState.map((categoryObj) => {
         if (categoryObj.category !== category) return categoryObj;
@@ -86,47 +74,24 @@ function GlobalCV() {
       })
     );
   };
-  // setCVDetails((prevState) => {
-  //   const updateCategory = prevState.find(
-  //     (item) => item.category === category
-  //   );
-  //   const updateEntry = updateCategory.entries.find(
-  //     (entry) => entry.id === id
-  //   );
 
-  //   console.log(updateEntry);
-
-  //   console.log(updateEntry.values[key]);
-
-  //   console.log(newValue);
-
-  //   return { ...prevState.category.id.values[key], [key]: newValue };
-  // .find((subItem) => subItem.id === id)
-  // .values.map((entryItems) =>
-  //   entryItems.key === key ? console.log("Enormous poo") : null
-  // );
-
-  // item.id === id ? { ...item, value: newValue } : item
-  //   });
-  // };
-  const DRAFTupdateValue = (id, newValue) => {
+  const toggleEditStatus = (id, category) => {
     setCVDetails((prevState) =>
-      prevState.map((item) =>
-        item.id === id ? { ...item, value: newValue } : item
-      )
-    );
-  };
+      prevState.map((categoryObj) => {
+        if (categoryObj.category !== category) return categoryObj;
 
-  const submitInfo = (id) => {
-    setCVDetails((prevState) =>
-      prevState.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              editStatus: true,
-            }
-          : item
-      )
+        return {
+          ...categoryObj,
+          entries: categoryObj.entries.map((entry) => {
+            if (entry.id !== id) return entry;
+
+            return {
+              ...entry,
+              editStatus: !entry.editStatus,
+            };
+          }),
+        };
+      })
     );
   };
 
@@ -139,12 +104,9 @@ function GlobalCV() {
       <FenderValues
         CVDetails={CVDetails}
         category={category}
-        editStatus={editStatus}
         updateValue={updateValue}
-        submitInfo={submitInfo}
+        toggleEditStatus={toggleEditStatus}
       />
-
-      {/* <BenderValues CVDetails={CVDetails} category={category} /> */}
     </div>
   ));
 }
