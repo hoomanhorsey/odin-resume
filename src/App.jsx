@@ -6,7 +6,10 @@ import { GlobalCV } from "./components/details";
 function App() {
   return (
     <>
-      <h1>Resume</h1>
+      <div className="mainHeading">
+        <h1>Resume</h1>
+      </div>
+
       <div>
         <GlobalCV />
       </div>

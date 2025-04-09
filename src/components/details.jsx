@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { defaultCV } from "../data/defaultCV";
 
-function FenderValues({ CVDetails, category, updateValue, toggleEditStatus }) {
+function RenderValues({ CVDetails, category, updateValue, toggleEditStatus }) {
   const selectedCategory = CVDetails.find((item) => item.category === category);
 
   return selectedCategory.entries.map((entry) => {
@@ -27,7 +27,7 @@ function FenderValues({ CVDetails, category, updateValue, toggleEditStatus }) {
     return (
       <div className="entryContainer" key={entry.id}>
         {entryValues}
-        <div>
+        <div className="buttonDiv">
           {entry.editStatus === false ? (
             <button
               className="itemButton"
@@ -98,10 +98,10 @@ function GlobalCV() {
   const categories = ["Details", "Education", "Work"];
 
   return categories.map((category) => (
-    <div key={category}>
+    <div className="section" key={category}>
       <h2>{category}</h2>
 
-      <FenderValues
+      <RenderValues
         CVDetails={CVDetails}
         category={category}
         updateValue={updateValue}
